@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------
+# Copyright IBM Corporation 2008, 2012.
+# 
+# GOVERNMENT PURPOSE RIGHTS
+# 
+# Contract No. W911NF-06-3-0002
+# Contractor Name: IBM 
+# Contractor Address:  IBM T. J. Watson Research Center.
+#                      19 Skyline Drive
+#                     Hawthorne, NY 10532 
+#
+# The Government's rights to use, modify, reproduce, release, perform, 
+# display or disclose this software are restricted by Article 10 
+# Intellectual Property Rights clause contained in the above 
+# identified contract. Any reproductions of the software or portions 
+# thereof marked with this legend must also reproduce the markings.
+# ---------------------------------------------------------------------------
+cmd=$0
+DSMCLASS=com.ibm.watson.dsm.services.tools.DistributedApplicationObserver
+if [ -z "$DSM_HOME" ]; then
+   echo Setting DSM_HOME and PATH automatically
+   export DSM_HOME=$(cd -P -- "$(dirname -- "$0")" && cd -P .. && pwd -P)
+   export PATH=$DSM_HOME/bin:$PATH
+fi
+# Do the actual work!
+dsmrun $DSMCLASS $*

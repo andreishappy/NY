@@ -1,0 +1,103 @@
+<html>
+<body>
+<h1>IBM Distributed State Machine Toolkit (DSMtk)</h1>
+Copyright IBM Corporation 2011, 2013.
+<ul>
+<li> <a href="#intro">Introduction</a>
+<li> <a href="#prereq">Prerequisites</a>
+<li> <a href="#install">Installation/Configuration</a>
+<li> <a href="#docs">Documentation</a>
+<li> <a href="#contents">Distribution Contents</a>
+<li> <a href="release-notes.html">Release Notes</a>
+<li> <a href="file:./NOTICE.txt">Release Notice</a>
+<li> <a href="file:./license">Licenses</a>
+</ul>
+
+
+<hr>
+
+<h3><a name="intro">Introduction</a></h3>
+Welcome to the IBM Distributed State Machine Toolkit (DSMtk).  The library provides a set of Java APIs 
+and tools to create and manage distribute state machine whose state is defined
+through a set of declarative rules.   
+<p>
+
+<h3><a name="prereq">Prerequisites</a></h3>
+<ul>
+<li> Java 1.6 or later JRE
+<li> Windows XP or Linux 
+<li> Apache and Antlr 3 components.
+</ul>
+
+
+<h3><a name="install"> Installation/Configuration </a> </h3>
+Installation is the same for Windows and *nix systems and basically entails unzipping
+the release, setting some environment variables, and adding a bin directory to the execution
+search path.  
+<ol>
+<li> Choose an install directory and create it.  For example /opt/dsm.  mkdir /opt/dsm.
+<li> Set your DSM_HOME environment variable to the directory created above.
+	<ul>
+	<li> On Linux - export DSM_HOME=/opt/dsm
+	<li> On Windows - set DSM_HOME=c:\opt\dsm
+	</ul>
+<li> Unzip the distribution. cd /opt/dsm.  unzip dsm-X.X-release.zip.
+<li> Add /opt/dsm/bin to your execution PATH env var
+<li> If needed (i.e. not included in this DSM distribution), download and install the software listed below into the <i>lib</i> directory of the DSM installation directory tree.
+<table border="1">
+<tr>
+<th>Component</th>	<th>Files</th> <th>Location</th>
+</tr>
+<tr>
+<td>Apache Derby 10.8</td>
+<td><i>derby.jar</i>, <i>derbyclient.jar</i></td>
+<td><a href="http://db.apache.org/derby/releases/release-10.8.1.2.html">http://db.apache.org/derby/releases/release-10.8.1.2.html</a></td>
+</tr>
+<tr>
+<td>Apache Commons Lang 2.6</td>
+<td><i>commons-lang-2.6.jar</i></td>
+<td><a href="http://commons.apache.org/lang/download_lang.cgi">http://commons.apache.org/lang/download_lang.cgi</a></td>
+</tr>
+</tr>
+<tr>
+<td>Apache Commons Logging 1.1.1</td>
+<td><i>commons-logging-1.1.1.jar</i></td>
+<td><a href="http://commons.apache.org/logging/download_logging.cgi">http://commons.apache.org/logging/download_logging.cgi</a></td>
+</tr>
+<tr>
+<td> Apache JEXL 2.1.1</td>
+<td><i>commons-jexl-2.1.1.jar</i></td>
+<td><a href="http://commons.apache.org/jexl/download_jexl.cgi">http://commons.apache.org/jexl/download_jexl.cgi</a></td>
+</tr>
+<tr>
+<td>Antlr 3.4</td>
+<td><i>antlr-3.4-complete.jar</i></td>
+<td><a href="http://www.antlr.org/download.html">http://www.antlr.org/download.html</a></td>
+</tr>
+
+</table> 
+</ul>
+</ol>
+
+  
+
+<h3><a name="contents"> Contents </a> </h3>
+The release is organized as follows:
+<ol>
+<li> <i>doc</i> directory - contains written documentation and javadoc.
+
+<li> <i>bin</i> directory - contains tools. 
+<li> <i>samples</i> directory - contains various Java samples demonstrating the use of the DSMtk APIs.
+<li> <i>lib</i> directory - jars, properties files, etc.
+<li> <i>license</i> directory - licenses for software components contained in the DSMtk package.
+
+</ol>
+
+<h3><a name="docs"> Documentation </a> </h3>
+<ol>
+<li> <a href="file:./doc/wiki">Various documents on installation, command line tools, samples, etc</a>
+<li> <a href="file:./doc/javadocs/index.html">Java Documentation for the APIs</a>
+</ol>  
+</body>
+</html>
+

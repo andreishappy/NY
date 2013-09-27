@@ -1,0 +1,46 @@
+system peers(char[128] node, char[64] relationship);
+// Local observations of other nodes by this node
+input my_observations(char[128] node, double opinion);
+input  reset(char[128] anything);	// If we see this, then clear all observations and opinions.
+
+// My final opinions which can be used for routing decisions
+persistent my_opinions(char[128] node, double opinion);
+// Observations received from others
+persistent individual_observations( char[128] source, char[128] node, double opinion);
+
+// Temporarily holds others' observations and my local observations.
+transient new_observations(char[128] source, char[128] node, double opinion);
+
+// Used to shared observations with others in the network.
+transport shared_observations(char[128] node, double opinion, int hops);
+
+
+// My locally determined observation trumps others
+new_observations("",n,o) := my_observations(n,o);	
+
+// If i have an opinion of the sending node, then only accept it if my opinion of them meets a threshold.
+new_observations(src,n,o) := shared_observations(n,o,*)@src, my_opinions(src,src_opinion);
+//new_observations(src,n,o) := shared_observations(n,o,*)@src, my_opinions(src,src_opinion) : src_opinion > .5;
+
+// Accept other observations if I don't have one.
+new_observations(src,n,o) := shared_observations(n,o,*)@src, not my_opinions(src,*);
+
+// Clear my opinion table for computation in the next block.
+my_opinions(n, o) -= my_opinions(n,o);
+
+// Replace existing observations with new ones, but if resetting, then leave this table empty.
+individual_observations(src,n,o) -= individual_observations(src,n,o), reset(*);
+individual_observations(src,n,o) -= new_observations(src,n,*), individual_observations(src,n,o);
+individual_observations(src,n,o) += new_observations(src,n,o), not reset(*);
+
+block;
+// Overlay observations of others where we don't already have a new observation
+new_observations(src, n, o) := individual_observations(src, n, o), not new_observations(src, n, *), not reset(*);
+
+// My new opinions are the average of the new observations of a node as long as the observations is not one about this node.
+my_opinions(n, avg(o)) += new_observations(src, n, o), not peers(n, "Self");
+
+// Send my observations to my immediate neighbor nodes
+shared_observations(n,o,1)@neighbor += my_observations(n,o), peers(neighbor, "Neighbor");
+// Send observations received from immediate neighbors to my neighbors.
+shared_observations(n,o,2)@neighbor += shared_observations(n,o,1)@src,  peers(neighbor, "Neighbor") : src != neighbor;

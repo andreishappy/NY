@@ -1,0 +1,37 @@
+Distributed State Machine Toolkit
+---------------------------------
+
+A toolkit to build distributed data sharing applications.
+
+
+
+Platform Requirements
+---------------------
+Java 1.6 or later JRE
+Windows or Linux Operating System
+
+Installation Instructions
+-------------------------
+Unzip the downloaded file and view welcome.html for further details.
+
+Group Biography
+---------------
+The Distributed State Machine Toolkit was developed by the Policy Lifecycle Technologies 
+group at IBM Research, as part of our partnership with the 
+Army Research Lab (http://www.arl.army.mil/www/default.htm)
+and the 
+International Technology Alliance (http://www.usukita.org/)
+program.
+
+The group is investigating platform-independent policy frameworks to specify, 
+analyze, and deploy security and networking policies. The goal is to provide easy 
+to use mechanisms for refining high-level user-specified goals into low-level controls. 
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,19 @@
+IBM Distributed State Machine Toolkit
+Copyright 2008, 2013 IBM Corporation
+
+This software includes software developed at
+The IBM T.J. Watson Research Laboratory and other IBM facilities.
+(c) Copyright IBM Corp. 2008,2013
+
+This software also includes software developed at
+The Apache Software Foundation (http://www.apache.org/) and
+Antlr.org (http://www.antlr.org).
+
+Please read the different license files in the license directory and other NOTICE files 
+present in this distribution.
+
+The IBM team wishes to thank all those who have contributed to Apache and
+other Open Source components that may be included with DSM.
+
+
+

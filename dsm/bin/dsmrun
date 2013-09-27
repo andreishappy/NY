@@ -1,0 +1,68 @@
+# ---------------------------------------------------------------------------
+# Copyright IBM Corporation 2008, 2010.
+# 
+# GOVERNMENT PURPOSE RIGHTS
+# 
+# Contract No. W911NF-06-3-0002
+# Contractor Name: IBM 
+# Contractor Address:  IBM T. J. Watson Research Center.
+#                      19 Skyline Drive
+#                     Hawthorne, NY 10532 
+#
+# The Government's rights to use, modify, reproduce, release, perform, 
+# display or disclose this software are restricted by Article 10 
+# Intellectual Property Rights clause contained in the above 
+# identified contract. Any reproductions of the software or portions 
+# thereof marked with this legend must also reproduce the markings.
+# ---------------------------------------------------------------------------
+cmd=$0
+function usage() {
+    echo ''
+    echo Usage: "$cmd <java class>"
+    echo "Start a main() method of a java class "
+    echo "-Dfoo=bar type options are interpreted as Java system"
+    echo "properties and moved to the front of the argument list ahead"
+    echo "of any other arguments."
+    echo Examples:
+    echo   $cmd com.ibm.watson.pml.util.DBTool 
+    echo   $cmd com.ibm.watson.pml.SomeClass -Dfoo=bar
+
+}
+args=
+sysProps=
+while [ $# -ne 0 ]; do
+	case $1 in 
+		-D*=*)
+	    	sysProps="$sysProps $1"
+	    ;;
+	    *)  args="$args $1"
+	    ;;
+	esac
+	shift;
+done
+if [ -z "$args" ]; then 
+    echo ERROR: Missing Java class 
+    usage
+    exit 1 
+fi
+if [ -z "$DSM_HOME" ]; then 
+   echo Setting DSM_HOME and PATH automatically
+   export DSM_HOME=$(cd -P -- "$(dirname -- "$0")" && cd -P .. && pwd -P)
+   export PATH=$DSM_HOME/bin:$PATH
+fi
+export WPML_HOME="$DSM_HOME"
+CP=`dsmjars`
+if [ ! -z "$CLASSPATH" ]; then
+    CP="$CP:$CLASSPATH"
+fi
+isCygwin=`echo $CP | grep cygdrive`
+if [ ! -z "$isCygwin" ]; then 
+    # For cygwin, convert the class path to be a DOS classpath
+    CP=`echo $CP | sed -e 's?:?;?g'`				# colon path separators to semi-colons 
+    CP=`echo $CP | sed -e 's?/cygdrive/\([a-z]\)/?\1:/?g'`	# /cygdrive/x/... to x:/...
+    CP=`echo $CP | sed -e 's?/?\\\\?g'`				# forward slash to backslash
+fi
+export CLASSPATH="$CP"
+#echo CLASSPATH=$CLASSPATH
+# Do the actual work!
+java  -Djava.library.path=$DSM_HOME/lib $sysProps $args 

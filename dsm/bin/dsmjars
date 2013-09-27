@@ -1,0 +1,87 @@
+# ---------------------------------------------------------------------------
+# Copyright IBM Corporation 2008, 2011.
+# 
+# GOVERNMENT PURPOSE RIGHTS
+# 
+# Contract No. W911NF-06-3-0002
+# Contractor Name: IBM 
+# Contractor Address:  IBM T. J. Watson Research Center.
+#                      19 Skyline Drive
+#                     Hawthorne, NY 10532 
+#
+# The Government's rights to use, modify, reproduce, release, perform, 
+# display or disclose this software are restricted by Article 10 
+# Intellectual Property Rights clause contained in the above 
+# identified contract. Any reproductions of the software or portions 
+# thereof marked with this legend must also reproduce the markings.
+# ---------------------------------------------------------------------------
+cmd=$0
+function usage() {
+    echo ''
+    echo 'Usage:'
+    echo 'Retrieves the list of jars in a colon-separated list suitable'
+    echo 'for setting the Java CLASS_PATH. It always returns the list'
+    echo 'of jars in DSM_HOME/lib, but additional directories may be'
+    echo 'included on the command line.'
+    echo 'Examples:'
+    echo "  $cmd \#retrieves the jars in DSM_HOME/lib"
+    echo "  $cmd /homes/me/java/lib \# gets jars in DSM_HOME/lib"
+    echo "       and the given directory."
+}
+function getjars() { # getjars dir
+	(cd $1; 
+		fullpath=`pwd`
+		CP=
+		for i in `ls *.jar`; do
+			if [ -z "$CP" ]; then
+				CP=$fullpath/$i
+			else
+		    	CP="$CP:$fullpath/$i"
+		    fi
+		done
+		echo $CP
+	)
+}
+
+if [ -z "$DSM_HOME" ]; then 
+    echo ERROR: DSM_HOME environment variable must be set.  
+    exit 1 
+fi
+
+dirs=$DSM_HOME/lib
+if [ -e $DSM_HOME/lib-int ]; then
+   dirs="$dirs $DSM_HOME/lib-int"
+fi
+while [ $# -ne 0 ]; do
+	case $1 in 
+	    -*help)
+			usage
+			exit 0
+	    ;;
+	    -*)  
+			echo Unknown option $1
+			usage
+			exit 1
+	    ;;
+	    *)
+			dirs="$dirs $1"
+			shift
+	    ;;
+	esac
+done
+for i in $dirs; do
+    tmp=`getjars $i`
+    if [ ! -z "$tmp" ]; then
+	    if [ -z "$CP" ]; then
+	    	CP=$tmp
+	    else
+	    	CP="$CP:$tmp"
+	    fi
+	fi
+done
+if [ ! -z "$OBJECTGRID_HOME" ]; then
+    for i in ogclient.jar objectgrid.jar; do
+        CP="$OBJECTGRID_HOME/lib/$i:$CP"
+    done
+fi
+echo $CP
